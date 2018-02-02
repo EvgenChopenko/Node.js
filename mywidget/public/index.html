@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src = "jquery.js">
+    </script>
+
+    
+<!-- C:\node\node_modules\jquery\dist\jquery.min.js     -->
+</head>
+<body>
+        <h1>Введите данные</h1>
+        <form action="/register" method="post" name="registerForm">
+            <label>Имя</label></br>
+            <input type="text" name="userName" /></br></br>
+            <label>Возраст</label></br>
+            <input type="number" name="userAge" /></br></br>
+            <input type="submit" value="Отправить" />
+        </form>
+<div>
+<p id="temp"></p>
+<p id="info"></p>
+<img src="",alt='виджент не загружен'/>
+</div>
+        <script>
+        $("form").submit(function(e) {
+             
+            e.preventDefault();
+            var registerForm = document.forms["registerForm"];
+            var userName = registerForm.elements["userName"].value;
+            var userAge = registerForm.elements["userAge"].value;
+        //   document.getElementById().innerText
+            $.ajax({
+                type: "POST",
+                url: "/user",
+                data: JSON.stringify({userName: userName, userAge: userAge}),
+                dataType: "json",
+                contentType: "application/json",
+                success: function(data){ 
+                   
+                   
+                    console.log(data);
+                    },
+                });
+        });
+
+        $( document ).ready(function() {
+            $.ajax({
+                type: "POST",
+                url: "/ws",                
+                dataType: "json",
+                contentType: "application/json",
+                success: function(data){ 
+                    console.log(data);
+                    info.innerText="Сводка на день : "+data.info;
+                    temp.innerText="Температура : "+data.wether;
+                     $('body').css("background",data.background);
+                     $('img').attr('src',data.src);
+                    },
+                });
+          });
+    </script>
+</body>
+</html>
